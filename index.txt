@@ -96,7 +96,7 @@
     <span class="error" id="cvError"></span>
 
     <!-- Custom Questions -->
-    <label for="q1">Why do you want to join our company?</label>
+    <label for="q1">Why do you want to join HPAIR?</label>
     <textarea id="q1" name="q1" rows="4" required></textarea>
     <span class="error" id="q1Error"></span>
 
@@ -104,7 +104,7 @@
     <textarea id="q2" name="q2" rows="4" required></textarea>
     <span class="error" id="q2Error"></span>
 
-    <label for="q3">Do you have any experience with remote work? If yes, explain.</label>
+    <label for="q3">Do you have any experience with leadership? If yes, explain.</label>
     <textarea id="q3" name="q3" rows="4"></textarea>
 
     <button type="submit">Submit</button>
