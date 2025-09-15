@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<HPAIR Form>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -108,6 +108,7 @@
       nationality: document.getElementById("nationality"),
       language: document.getElementById("language"),
       cv: document.getElementById("cv")
+      questions: document.getElementByID("Questions?"
     };
 
     const errors = {
@@ -119,6 +120,7 @@
       nationality: document.getElementById("nationalityError"),
       language: document.getElementById("languageError"),
       cv: document.getElementById("cvError")
+      questions: document.getElementByID("Questions?"
     };
 
     function validateFullName() {
