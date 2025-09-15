@@ -1,4 +1,4 @@
-<HPAIR Form>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -10,7 +10,7 @@
       margin: 2rem;
     }
     form {
-      max-width: 600px;
+      max-width: 700px;
       padding: 2rem;
       background: white;
       border-radius: 10px;
@@ -30,14 +30,14 @@
       font-size: 1rem;
     }
     button {
-      background: #28a745;
+      background: #007bff;
       color: white;
       border: none;
       cursor: pointer;
       margin-top: 1rem;
     }
     button:hover {
-      background: #218838;
+      background: #0056b3;
     }
     .error {
       color: red;
@@ -52,8 +52,10 @@
   </style>
 </head>
 <body>
-  <h2>Application Form</h2>
+  <h2>Job Application Form</h2>
   <form id="applicationForm" novalidate>
+
+    <!-- Personal Information -->
     <label for="fullName">Full Name:</label>
     <input type="text" id="fullName" name="fullName" required>
     <span class="error" id="fullNameError"></span>
@@ -88,9 +90,22 @@
     </select>
     <span class="error" id="languageError"></span>
 
+    <!-- File Upload -->
     <label for="cv">Upload CV (PDF only):</label>
     <input type="file" id="cv" name="cv" accept=".pdf" required>
     <span class="error" id="cvError"></span>
+
+    <!-- Custom Questions -->
+    <label for="q1">Why do you want to join our company?</label>
+    <textarea id="q1" name="q1" rows="4" required></textarea>
+    <span class="error" id="q1Error"></span>
+
+    <label for="q2">What are your strengths?</label>
+    <textarea id="q2" name="q2" rows="4" required></textarea>
+    <span class="error" id="q2Error"></span>
+
+    <label for="q3">Do you have any experience with remote work? If yes, explain.</label>
+    <textarea id="q3" name="q3" rows="4"></textarea>
 
     <button type="submit">Submit</button>
     <div class="success-message" id="successMessage"></div>
@@ -107,8 +122,10 @@
       linkedin: document.getElementById("linkedin"),
       nationality: document.getElementById("nationality"),
       language: document.getElementById("language"),
-      cv: document.getElementById("cv")
-      questions: document.getElementByID("Questions?"
+      cv: document.getElementById("cv"),
+      q1: document.getElementById("q1"),
+      q2: document.getElementById("q2"),
+      q3: document.getElementById("q3")
     };
 
     const errors = {
@@ -119,8 +136,9 @@
       linkedin: document.getElementById("linkedinError"),
       nationality: document.getElementById("nationalityError"),
       language: document.getElementById("languageError"),
-      cv: document.getElementById("cvError")
-      questions: document.getElementByID("Questions?"
+      cv: document.getElementById("cvError"),
+      q1: document.getElementById("q1Error"),
+      q2: document.getElementById("q2Error")
     };
 
     function validateFullName() {
@@ -205,6 +223,24 @@
       return true;
     }
 
+    function validateQ1() {
+      if (fields.q1.value.trim() === "") {
+        errors.q1.textContent = "This question is required.";
+        return false;
+      }
+      errors.q1.textContent = "";
+      return true;
+    }
+
+    function validateQ2() {
+      if (fields.q2.value.trim() === "") {
+        errors.q2.textContent = "This question is required.";
+        return false;
+      }
+      errors.q2.textContent = "";
+      return true;
+    }
+
     // Real-time validation
     fields.fullName.addEventListener("input", validateFullName);
     fields.address.addEventListener("input", validateAddress);
@@ -214,6 +250,8 @@
     fields.nationality.addEventListener("input", validateNationality);
     fields.language.addEventListener("change", validateLanguage);
     fields.cv.addEventListener("change", validateCV);
+    fields.q1.addEventListener("input", validateQ1);
+    fields.q2.addEventListener("input", validateQ2);
 
     form.addEventListener("submit", function(e) {
       e.preventDefault();
@@ -226,12 +264,13 @@
         validateLinkedIn() &&
         validateNationality() &&
         validateLanguage() &&
-        validateCV();
+        validateCV() &&
+        validateQ1() &&
+        validateQ2();
 
       const successMessage = document.getElementById("successMessage");
 
       if (valid) {
-        // Simulate form submission success
         successMessage.textContent = "Your application has been submitted successfully!";
         form.reset();
       } else {
