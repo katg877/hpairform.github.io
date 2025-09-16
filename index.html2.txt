@@ -1,134 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Application Form</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      margin: 2rem;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      margin: 0;
+      background: #f6f7fb;
+      padding: 1.5rem;
+      display: flex;
+      justify-content: center;
     }
-    form {
-      max-width: 700px;
+    .container {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.08);
       padding: 2rem;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    label {
-      display: block;
-      margin-top: 1rem;
-      font-weight: bold;
-    }
-    input, textarea, select, button {
+      max-width: 800px;
       width: 100%;
-      padding: 0.5rem;
-      margin-top: 0.3rem;
+    }
+    h1 { margin-top: 0; }
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .full { grid-column: 1 / -1; }
+    label { font-weight: 600; margin-bottom: .25rem; display: block; }
+    input, select, textarea {
+      width: 100%;
+      padding: .65rem;
       border: 1px solid #ccc;
-      border-radius: 5px;
+      border-radius: 8px;
       font-size: 1rem;
     }
+    textarea { resize: vertical; min-height: 120px; }
+    .error { color: #c00; font-size: .9rem; margin-top: .25rem; }
     button {
-      background: #007bff;
-      color: white;
+      background: #0d6efd;
+      color: #fff;
       border: none;
+      border-radius: 8px;
+      padding: .7rem 1rem;
+      font-weight: 600;
       cursor: pointer;
-      margin-top: 1rem;
     }
-    button:hover {
-      background: #0056b3;
-    }
-    .success-message {
+    button[disabled] { opacity: .6; cursor: not-allowed; }
+    .summary-box {
       margin-top: 1rem;
-      color: green;
-      font-weight: bold;
+      padding: 1rem;
+      background: #f1f3f9;
+      border-radius: 8px;
+      white-space: pre-wrap;
+      font-family: monospace;
+      display: none;
     }
   </style>
 </head>
 <body>
-  <h2>Application Form</h2>
-  <form id="applicationForm">
-
-    <label for="fullName">Full Name:</label>
-    <input type="text" id="fullName" name="fullName" required>
-
-    <label for="address">Address:</label>
-    <textarea id="address" name="address" rows="3" required></textarea>
-
-    <label for="phone">Phone Number:</label>
-    <input type="tel" id="phone" name="phone" placeholder="123-456-7890" required>
-
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
-
-    <label for="linkedin">LinkedIn URL:</label>
-    <input type="url" id="linkedin" name="linkedin" placeholder="https://www.linkedin.com/in/username" required>
-
-    <label for="nationality">Nationality:</label>
-    <input type="text" id="nationality" name="nationality" required>
-
-    <label for="language">Preferred Language:</label>
-    <select id="language" name="language" required>
-      <option value="">Select</option>
-      <option value="English">English</option>
-      <option value="Spanish">Spanish</option>
-      <option value="French">French</option>
-      <option value="Other">Other</option>
-    </select>
-
-    <label for="cv">Upload CV (PDF only):</label>
-    <input type="file" id="cv" name="cv" accept=".pdf" required>
-
-    <button type="submit">Submit & Download Summary</button>
-    <div class="success-message" id="successMessage"></div>
-  </form>
+  <div class="container">
+    <h1>Conference Application Form</h1>
+    <form id="appForm" novalidate>
+      <div>
+        <label for="fullName">Full name</label>
+        <input id="fullName" name="fullName" type="text" required />
+        <div id="fullNameError" class="error"></div>
+      </div>
+      <div>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required />
+        <div id="emailError" class="error"></div>
+      </div>
+      <div>
+        <label for="phone">Phone</label>
+        <input id="phone" name="phone" type="tel" placeholder="123-456-7890" required />
+        <div id="phoneError" class="error"></div>
+      </div>
+      <div>
+        <label for="nationality">Nationality</label>
+        <input id="nationality" name="nationality" type="text" required />
+        <div id="nationalityError" class="error"></div>
+      </div>
+      <div class="full">
+        <label for="address">Address</label>
+        <textarea id="address" name="address" required></textarea>
+        <div id="addressError" class="error"></div>
+      </div>
+      <div>
+        <label for="linkedin">LinkedIn URL</label>
+        <input id="linkedin" name="linkedin" type="url" required />
+        <div id="linkedinError" class="error"></div>
+      </div>
+      <div>
+        <label for="language">Preferred language</label>
+        <select id="language" name="language" required>
+          <option value="">Select…</option>
+          <option>English</option>
+          <option>Spanish</option>
+          <option>French</option>
+          <option>Chinese</option>
+        </select>
+        <div id="languageError" class="error"></div>
+      </div>
+      <div class="full">
+        <label for="cv">Upload CV (PDF)</label>
+        <input id="cv" name="cv" type="file" accept="application/pdf" required />
+        <div id="cvError" class="error"></div>
+      </div>
+      <!-- NEW QUESTIONS -->
+      <div class="full">
+        <label for="whyAttend">Why do you want to attend the conference?</label>
+        <textarea id="whyAttend" name="whyAttend" required></textarea>
+        <div id="whyAttendError" class="error"></div>
+      </div>
+      <div class="full">
+        <label for="leadership">What is your experience with leadership?</label>
+        <textarea id="leadership" name="leadership" required></textarea>
+        <div id="leadershipError" class="error"></div>
+      </div>
+      <!-- ACTIONS -->
+      <div class="full">
+        <button id="submitBtn" type="submit" disabled>Submit</button>
+        <button id="downloadBtn" type="button">Download Summary</button>
+        <div id="status"></div>
+      </div>
+    </form>
+    <div id="summary" class="summary-box"></div>
+  </div>
 
   <script>
-    document.getElementById("applicationForm").addEventListener("submit", function(e) {
-      e.preventDefault();
+    const form = document.getElementById("appForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const downloadBtn = document.getElementById("downloadBtn");
+    const summaryBox = document.getElementById("summary");
+    const statusEl = document.getElementById("status");
 
-      // Collect responses
-      const data = {
-        fullName: document.getElementById("fullName").value,
-        address: document.getElementById("address").value,
-        phone: document.getElementById("phone").value,
-        email: document.getElementById("email").value,
-        linkedin: document.getElementById("linkedin").value,
-        nationality: document.getElementById("nationality").value,
-        language: document.getElementById("language").value,
-        cv: document.getElementById("cv").files[0]?.name || "Not uploaded"
-      };
+    const fields = {
+      fullName: form.fullName,
+      email: form.email,
+      phone: form.phone,
+      nationality: form.nationality,
+      address: form.address,
+      linkedin: form.linkedin,
+      language: form.language,
+      cv: form.cv,
+      whyAttend: form.whyAttend,
+      leadership: form.leadership
+    };
 
-      // Create summary text
-      const summary = 
-        `Application Summary\n\n` +
-        `Full Name: ${data.fullName}\n` +
-        `Address: ${data.address}\n` +
-        `Phone: ${data.phone}\n` +
-        `Email: ${data.email}\n` +
-        `LinkedIn: ${data.linkedin}\n` +
-        `Nationality: ${data.nationality}\n` +
-        `Preferred Language: ${data.language}\n` +
-        `CV File: ${data.cv}\n`;
+    const errors = {
+      fullName: document.getElementById("fullNameError"),
+      email: document.getElementById("emailError"),
+      phone: document.getElementById("phoneError"),
+      nationality: document.getElementById("nationalityError"),
+      address: document.getElementById("addressError"),
+      linkedin: document.getElementById("linkedinError"),
+      language: document.getElementById("languageError"),
+      cv: document.getElementById("cvError"),
+      whyAttend: document.getElementById("whyAttendError"),
+      leadership: document.getElementById("leadershipError")
+    };
 
-      // Create downloadable file
-      const blob = new Blob([summary], { type: "text/plain" });
+    const validators = {
+      fullName: v => v.trim().length >= 3 || "Enter full name (min 3 characters)",
+      email: v => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v) || "Enter valid email",
+      phone: v => /^\d{3}-\d{3}-\d{4}$/.test(v) || "Use format 123-456-7890",
+      nationality: v => v.trim() !== "" || "Enter nationality",
+      address: v => v.trim() !== "" || "Enter address",
+      linkedin: v => v.includes("linkedin.com") || "Enter valid LinkedIn URL",
+      language: v => v.trim() !== "" || "Select a language",
+      cv: () => fields.cv.files[0]?.type === "application/pdf" || "Upload a PDF CV",
+      whyAttend: v => v.trim().length >= 20 || "Answer must be at least 20 characters",
+      leadership: v => v.trim().length >= 20 || "Answer must be at least 20 characters"
+    };
+
+    function validateField(name) {
+      const field = fields[name];
+      const value = field.type === "file" ? "" : field.value;
+      const valid = validators[name](value);
+      if (valid !== true) {
+        errors[name].textContent = valid;
+        return false;
+      }
+      errors[name].textContent = "";
+      return true;
+    }
+
+    function validateAll() {
+      let ok = true;
+      for (const key in fields) {
+        if (!validateField(key)) ok = false;
+      }
+      submitBtn.disabled = !ok;
+      return ok;
+    }
+
+    Object.keys(fields).forEach(key => {
+      fields[key].addEventListener("input", () => validateAll());
+      if (fields[key].type === "file") {
+        fields[key].addEventListener("change", () => validateAll());
+      }
+    });
+
+    function makeSummary() {
+      return `Conference Application
+======================
+Full name: ${fields.fullName.value}
+Email: ${fields.email.value}
+Phone: ${fields.phone.value}
+Nationality: ${fields.nationality.value}
+Address: ${fields.address.value}
+LinkedIn: ${fields.linkedin.value}
+Preferred language: ${fields.language.value}
+CV: ${fields.cv.files[0]?.name || "Not uploaded"}
+
+Why attend:
+${fields.whyAttend.value}
+
+Leadership experience:
+${fields.leadership.value}`;
+    }
+
+    downloadBtn.addEventListener("click", () => {
+      const txt = makeSummary();
+      const blob = new Blob([txt], {type:"text/plain"});
       const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "application_summary.txt";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "application_summary.txt";
+      a.click();
       URL.revokeObjectURL(url);
 
-      // Show confirmation
-      document.getElementById("successMessage").textContent = "Form submitted! Your summary has been downloaded.";
-      
-      // Reset form
-      e.target.reset();
+      summaryBox.style.display = "block";
+      summaryBox.textContent = txt;
     });
+
+    form.addEventListener("submit", ev => {
+      ev.preventDefault();
+      if (!validateAll()) {
+        statusEl.textContent = "Fix errors before submitting";
+        return;
+      }
+      statusEl.textContent = "✅ Form would be submitted here";
+      form.reset();
+      submitBtn.disabled = true;
+    });
+
+    validateAll();
   </script>
 </body>
 </html>
